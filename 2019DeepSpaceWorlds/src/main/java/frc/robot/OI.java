@@ -28,15 +28,6 @@ public class OI {
     public OI() {
         pilotController = new Joystick(0);
         coPilotController = new Joystick(1);
-
-        /*
-        Button copilotButtonA = new JoystickButton(coPilotController, RobotMap.joystickButtonA);
-        copilotButtonA.whileHeld(new HatchIntakeDown());
-        
-        Button copilotButtonY = new JoystickButton(coPilotController, RobotMap.joystickButtonY);
-        copilotButtonY.whileHeld(new HatchIntakeUp());
-        */
-
     
         Button copilotButtonY = new JoystickButton(coPilotController, RobotMap.joystickButtonY);
         copilotButtonY.whenPressed(new MoveIntake(1.75));
@@ -51,14 +42,13 @@ public class OI {
         copilotButtonX.whenPressed(new SwapIntake());
 
         Button copilotLeftBumper = new JoystickButton(coPilotController, RobotMap.joystickLeftBumper);
-        //copilotLeftTrigger.whenPressed(new AutoMoveCargoToPosition(Robot.cargoIntake.getOffset()));
         copilotLeftBumper.whenPressed(new AutoMoveCargoToPosition(0));
 
         Button copilotStart = new JoystickButton(coPilotController, RobotMap.joystickButtonStart);
-        copilotStart.whenPressed(new AutoMoveCargoToPosition(90)); // + Robot.cargoIntake.getOffset()));
+        copilotStart.whenPressed(new AutoMoveCargoToPosition(90)); 
 
         Button copilotBack = new JoystickButton(coPilotController, RobotMap.joystickButtonBack);
-        copilotBack.whenPressed(new AutoMoveCargoToPosition(60 + Robot.cargoIntake.getOffset()));
+        copilotBack.whenPressed(new AutoMoveCargoToPosition(60));
 
         Button pilotButtonY = new JoystickButton(pilotController, RobotMap.joystickButtonY);
         pilotButtonY.whenPressed(new SwapDriveDirection());
@@ -71,8 +61,6 @@ public class OI {
 
         Button pilotButtonB = new JoystickButton(pilotController, RobotMap.joystickButtonB);
         pilotButtonB.whenPressed(new TurnRobot(Robot.drivetrain.getGyroAngle() + 90));
-
-        
         
         
         copilotButtonA.close();
@@ -84,6 +72,8 @@ public class OI {
         copilotLeftBumper.close();
         pilotButtonY.close();
         pilotButtonA.close();
+        pilotButtonX.close();
+        pilotButtonB.close();
 
     }
 

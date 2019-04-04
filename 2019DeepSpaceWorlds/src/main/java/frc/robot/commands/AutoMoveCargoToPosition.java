@@ -14,6 +14,7 @@ import frc.robot.commands.SwapIntake;
 public class AutoMoveCargoToPosition extends Command {
   
   double position;
+  boolean bottomedOut;
   SwapIntake swapIntake = new SwapIntake();
 
   public AutoMoveCargoToPosition(double position) {
@@ -25,7 +26,7 @@ public class AutoMoveCargoToPosition extends Command {
   @Override
   protected void initialize() {
     super.initialize();
-    Robot.cargoIntake.setSetpoint(position);
+    Robot.cargoIntake.setSetpoint(position + Robot.cargoIntake.getOffset());
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -33,6 +34,7 @@ public class AutoMoveCargoToPosition extends Command {
   protected void execute() {
     Robot.cargoIntake.cargoIntakeMotor.configContinuousCurrentLimit(8);
     Robot.cargoIntake.cargoIntakeMotor.set(1);
+    bottomedOut = Robot.cargoIntake.getCargoLowerLimit() && (position == 0);
     Robot.cargoIntake.enable();
     if(!Robot.cargoIntake.shouldRunIntake() && position == Robot.cargoIntake.getOffset()){
       swapIntake.start();
@@ -42,7 +44,7 @@ public class AutoMoveCargoToPosition extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.cargoIntake.onTarget();
+    return Robot.cargoIntake.onTarget() || bottomedOut;
   }
 
   // Called once after isFinished returns true

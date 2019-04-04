@@ -127,7 +127,6 @@ public class Robot extends TimedRobot {
     
     SmartDashboard.putData(distanceSensor);
 
-    SmartDashboard.putData(upperHatchLimitSwitch);
     SmartDashboard.putData(upperCargoLimitSwitch);
     SmartDashboard.putData(lowerCargoLimitSwitch);
     
@@ -208,6 +207,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("ReverseDriveActive", Robot.drivetrain.shouldUseReverseDrive());
     SmartDashboard.putNumber("CurrentLimiting", Robot.cargoIntake.cargoIntakeMotor.getOutputCurrent());
     SmartDashboard.putNumber("cargoEncoder", Robot.cargoIntake.getCargoArmEncoderPosition());
+    SmartDashboard.putNumber("Current Offset", Robot.cargoIntake.getOffset());
   }
 
   /**

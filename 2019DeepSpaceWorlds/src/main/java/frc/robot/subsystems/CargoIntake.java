@@ -133,9 +133,9 @@ public class CargoIntake extends PIDSubsystem {
 
   @Override
   protected void usePIDOutput(double output) {
-    /*if(armDirection && getCargoUpperLimit() || !armDirection && getCargoLowerLimit()){
+    if(armDirection && getCargoUpperLimit() || !armDirection && getCargoLowerLimit()){
       return;
-    }*/
+    }
     output = Math.max(output, -0.4);
     output = Math.min(output, 0.7);
 
