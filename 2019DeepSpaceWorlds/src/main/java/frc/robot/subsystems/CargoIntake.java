@@ -26,7 +26,6 @@ public class CargoIntake extends PIDSubsystem {
   public CANSparkMax cargoExtensionMotor = new CANSparkMax(RobotMap.cargoExtensionMotor, MotorType.kBrushless);
   public CANEncoder cargoExtensionEncoder = cargoExtensionMotor.getEncoder(); 
   private boolean armDirection;
-  //private boolean intakeDirection;
   public boolean runIntake = false;
   public double encoderOffset;
 

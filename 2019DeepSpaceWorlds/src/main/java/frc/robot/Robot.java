@@ -29,7 +29,6 @@ import frc.robot.commands.SwapIntake;
 import frc.robot.commands.AutoDriveForward;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.HatchIntake;
 import frc.robot.subsystems.IntakeExtender;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.cscore.VideoMode;
@@ -44,7 +43,6 @@ import edu.wpi.cscore.VideoMode;
  */
 public class Robot extends TimedRobot {
 
-  public static HatchIntake hatchIntake;
   public static Drivetrain drivetrain;
   public static IntakeExtender intakeExtender;
   public static CargoIntake cargoIntake;
@@ -79,6 +77,8 @@ public class Robot extends TimedRobot {
   public static DigitalInput upperCargoLimitSwitch;
   public static final int IMG_WIDTH = 1;
   public static final int IMG_HEIGHT = 1;
+  public static final int cargoHeight = 90;
+  public static final int lowerRocketHeight = 60;
   public static VideoMode videoMode;
   public boolean prevTrigger = false;
   public static final int   MIN_DISTANCE = 30;
@@ -96,7 +96,6 @@ public class Robot extends TimedRobot {
   public void robotInit(){
 
 
-    hatchIntake = new HatchIntake();
     drivetrain = new Drivetrain();
     intakeExtender = new IntakeExtender();
     cargoIntake = new CargoIntake();
@@ -117,10 +116,9 @@ public class Robot extends TimedRobot {
 
     actuatorPosition = new AnalogInput(0);
     distanceSensor = new AnalogInput(1);
-    upperHatchLimitSwitch = new DigitalInput(0);
-    lowerHatchLimitSwitch = new DigitalInput(4);
-    lowerCargoLimitSwitch = new DigitalInput(1);
-    upperCargoLimitSwitch = new DigitalInput(2);
+    
+    lowerCargoLimitSwitch = new DigitalInput(RobotMap.lowerCargoLimit);
+    upperCargoLimitSwitch = new DigitalInput(RobotMap.upperCargoLimit);
     gyro = new AHRS(SPI.Port.kMXP);
 
     SmartDashboard.putData(actuatorPosition);
@@ -216,10 +214,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
-
-  @Override
-  public void disabledInit() {
-    driveForward = new AutoDriveForward(1);
-    driveForward.start();
-  }
+  
 }

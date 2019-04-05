@@ -45,10 +45,10 @@ public class OI {
         copilotLeftBumper.whenPressed(new AutoMoveCargoToPosition(0));
 
         Button copilotStart = new JoystickButton(coPilotController, RobotMap.joystickButtonStart);
-        copilotStart.whenPressed(new AutoMoveCargoToPosition(90)); 
+        copilotStart.whenPressed(new AutoMoveCargoToPosition(Robot.cargoHeight)); 
 
         Button copilotBack = new JoystickButton(coPilotController, RobotMap.joystickButtonBack);
-        copilotBack.whenPressed(new AutoMoveCargoToPosition(60));
+        copilotBack.whenPressed(new AutoMoveCargoToPosition(Robot.lowerRocketHeight));
 
         Button pilotButtonY = new JoystickButton(pilotController, RobotMap.joystickButtonY);
         pilotButtonY.whenPressed(new SwapDriveDirection());

@@ -51,7 +51,6 @@ public class AutoMoveCargoToPosition extends Command {
   @Override
   protected void end() {
     Robot.cargoIntake.disable();
-    Robot.cargoIntake.free();
   }
 
   // Called when another command which requires one or more of the same

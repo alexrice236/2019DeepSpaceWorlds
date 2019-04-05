@@ -27,6 +27,9 @@ public class RobotMap {
 	public static final int leftJoystickXAxis 	= 0;
 	public static final int rightJoystickXAxis 	= 4;
 
+	public static final int lowerCargoLimit = 1;
+	public static final int upperCargoLimit = 2;
+
 	public static final int joystickButtonA 			= 1;
 	public static final int joystickButtonB 			= 2;
 	public static final int joystickButtonX				= 3;
