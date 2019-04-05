@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
 
   public static DriverStation ds;
 
-  Command initialcCommand;
+  Command initialCommand;
   SendableChooser<Command> chooser; 
 
   public static UsbCamera frontCamera;
@@ -153,6 +153,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putBoolean("rightBumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickRightBumper));
+    SmartDashboard.putBoolean("leftBumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickLeftBumper));
+    SmartDashboard.putBoolean("runIntake", Robot.cargoIntake.shouldRunIntake());
+    SmartDashboard.putBoolean("ReverseDriveActive", Robot.drivetrain.shouldUseReverseDrive());
+    SmartDashboard.putNumber("CurrentLimiting", Robot.cargoIntake.cargoIntakeMotor.getOutputCurrent());
+    SmartDashboard.putNumber("cargoEncoder", Robot.cargoIntake.getCargoArmEncoderPosition());
+    SmartDashboard.putNumber("Current Offset", Robot.cargoIntake.getOffset());
   }
 
   @Override
@@ -176,8 +183,8 @@ public class Robot extends TimedRobot {
   
     drivetrain.resetEncoders();
      
-    initialcCommand = (Command) chooser.getSelected();
-    initialcCommand.start();
+    initialCommand = chooser.getSelected();
+    initialCommand.start();
     drive.start();
     //swapDrive.start();
     //extend.start();
@@ -199,13 +206,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     Scheduler.getInstance().run();
-    SmartDashboard.putBoolean("rightBumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickRightBumper));
-    SmartDashboard.putBoolean("leftBumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickLeftBumper));
-    SmartDashboard.putBoolean("runIntake", Robot.cargoIntake.shouldRunIntake());
-    SmartDashboard.putBoolean("ReverseDriveActive", Robot.drivetrain.shouldUseReverseDrive());
-    SmartDashboard.putNumber("CurrentLimiting", Robot.cargoIntake.cargoIntakeMotor.getOutputCurrent());
-    SmartDashboard.putNumber("cargoEncoder", Robot.cargoIntake.getCargoArmEncoderPosition());
-    SmartDashboard.putNumber("Current Offset", Robot.cargoIntake.getOffset());
+    
   }
 
   /**
