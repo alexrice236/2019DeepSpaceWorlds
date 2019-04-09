@@ -43,6 +43,8 @@ import edu.wpi.cscore.VideoMode;
  */
 public class Robot extends TimedRobot {
 
+  
+
   public static Drivetrain drivetrain;
   public static IntakeExtender intakeExtender;
   public static CargoIntake cargoIntake;
@@ -54,12 +56,12 @@ public class Robot extends TimedRobot {
   public static AutoDriveForward driveForward;
   
   public static MoveIntake moveIntake;
+  public static MoveIntake retractIntake;
 
   public static Trigger.ButtonScheduler upButton;
 
   public static OI oi;
 
-  public static DriverStation ds;
 
   Command initialCommand;
   SendableChooser<Command> chooser; 
@@ -87,6 +89,8 @@ public class Robot extends TimedRobot {
   public final Object imgLock = new Object();
 
 
+
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -95,7 +99,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit(){
 
-
+  
     drivetrain = new Drivetrain();
     intakeExtender = new IntakeExtender();
     cargoIntake = new CargoIntake();
@@ -103,6 +107,8 @@ public class Robot extends TimedRobot {
     drive = new DriveWithJoysticks();
     swapDrive = new SwapDriveDirection();
     moveIntake = new MoveIntake(1.75);
+    retractIntake = new MoveIntake(0.94);
+
     hatch = new HatchInitial();
     swapIntake = new SwapIntake();
 
@@ -121,14 +127,14 @@ public class Robot extends TimedRobot {
     upperCargoLimitSwitch = new DigitalInput(RobotMap.upperCargoLimit);
     gyro = new AHRS(SPI.Port.kMXP);
 
-    SmartDashboard.putData(actuatorPosition);
+    //SmartDashboard.putData(actuatorPosition);
     
-    SmartDashboard.putData(distanceSensor);
+    //SmartDashboard.putData(distanceSensor);
 
-    SmartDashboard.putData(upperCargoLimitSwitch);
-    SmartDashboard.putData(lowerCargoLimitSwitch);
+    //SmartDashboard.putData(upperCargoLimitSwitch);
+    //SmartDashboard.putData(lowerCargoLimitSwitch);
     
-    SmartDashboard.putData(gyro);
+    //SmartDashboard.putData(gyro);
     
     videoMode = new VideoMode(1, IMG_WIDTH, IMG_HEIGHT, 30);
 
@@ -153,13 +159,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putBoolean("rightBumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickRightBumper));
-    SmartDashboard.putBoolean("leftBumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickLeftBumper));
-    SmartDashboard.putBoolean("runIntake", Robot.cargoIntake.shouldRunIntake());
-    SmartDashboard.putBoolean("ReverseDriveActive", Robot.drivetrain.shouldUseReverseDrive());
-    SmartDashboard.putNumber("CurrentLimiting", Robot.cargoIntake.cargoIntakeMotor.getOutputCurrent());
-    SmartDashboard.putNumber("cargoEncoder", Robot.cargoIntake.getCargoArmEncoderPosition());
+    /*
+    SmartDashboard.putBoolean("Right Bumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickRightBumper));
+    SmartDashboard.putBoolean("Left Bumper", Robot.oi.getPilotController().getRawButton(RobotMap.joystickLeftBumper));
+    SmartDashboard.putBoolean("Run Intake", Robot.cargoIntake.shouldRunIntake());
+    SmartDashboard.putBoolean("Reverse Drive Active", Robot.drivetrain.shouldUseReverseDrive());
+    SmartDashboard.putNumber("Current Limiting", Robot.cargoIntake.cargoIntakeMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Cargo Encoder", Robot.cargoIntake.getCargoArmEncoderPosition());
     SmartDashboard.putNumber("Current Offset", Robot.cargoIntake.getOffset());
+    */
+
+    SmartDashboard.putNumber("Time left", DriverStation.getInstance().getMatchTime());
+    
   }
 
   @Override
@@ -188,6 +199,7 @@ public class Robot extends TimedRobot {
     drive.start();
     //swapDrive.start();
     //extend.start();
+    
   }
 
   /**
@@ -206,6 +218,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     Scheduler.getInstance().run();
+    double matchTime = DriverStation.getInstance().getMatchTime();
+    if(matchTime < 1.5 && matchTime > 0){
+        retractIntake.start();
+    }
     
   }
 
