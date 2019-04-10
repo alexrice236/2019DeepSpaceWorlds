@@ -87,7 +87,7 @@ public class Drivetrain extends Subsystem {
   }
 
   public double getGyroAngle(){
-    return 60; //Robot.gyro.getAngle();
+    return Robot.gyro.getAngle();
   }
 
 }
