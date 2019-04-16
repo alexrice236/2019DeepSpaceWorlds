@@ -12,7 +12,7 @@ import frc.robot.Robot;
 
 public class MoveIntake extends PIDCommand {
 
-  private double currentActuatorVoltage;
+
   
   public MoveIntake(double position) {
    super(5, 0, -5);
@@ -57,8 +57,8 @@ public class MoveIntake extends PIDCommand {
 
   @Override
   protected double returnPIDInput() {
-    currentActuatorVoltage = Robot.intakeExtender.getActuatorPosition();
-    return currentActuatorVoltage;
+    
+    return Robot.intakeExtender.getActuatorPosition();
   }
 
   @Override

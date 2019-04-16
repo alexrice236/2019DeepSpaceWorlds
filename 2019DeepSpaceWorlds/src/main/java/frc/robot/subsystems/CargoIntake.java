@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -38,6 +39,7 @@ public class CargoIntake extends PIDSubsystem {
 
     configureControllers();
     cargoExtensionMotor.setSmartCurrentLimit(Robot.MAX_CURRENT_NEO);
+    cargoExtensionMotor.setIdleMode(IdleMode.kBrake);
     cargoIntakeMotor.configPeakCurrentLimit(0);
     cargoIntakeMotor.configContinuousCurrentLimit(5);
     cargoIntakeMotor.enableCurrentLimit(true);
@@ -132,7 +134,8 @@ public class CargoIntake extends PIDSubsystem {
 
   @Override
   protected void usePIDOutput(double output) {
-    if(armDirection && getCargoUpperLimit() || !armDirection && getCargoLowerLimit()){
+    if(output < 0 && getCargoUpperLimit() || output > 0 && getCargoLowerLimit()){
+      cargoExtensionMotor.stopMotor();
       return;
     }
     output = Math.max(output, -0.4);

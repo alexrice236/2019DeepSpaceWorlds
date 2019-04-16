@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.MoveIntake;
 import frc.robot.commands.SwapDriveDirection;
@@ -77,6 +78,7 @@ public class Robot extends TimedRobot {
   public static DigitalInput upperHatchLimitSwitch;
   public static DigitalInput lowerCargoLimitSwitch;
   public static DigitalInput upperCargoLimitSwitch;
+  public static double matchTime;
   public static final int IMG_WIDTH = 1;
   public static final int IMG_HEIGHT = 1;
   public static final int cargoHeight = 90;
@@ -115,6 +117,7 @@ public class Robot extends TimedRobot {
     chooser = new SendableChooser<>();
     chooser.setDefaultOption("Hatch", hatch);
     chooser.addOption("Cargo", swapIntake);
+    chooser.addOption("lvl 2 Hatch", swapDrive);
     SmartDashboard.putData("Initial Chooser", chooser);
 
 
@@ -168,8 +171,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Cargo Encoder", Robot.cargoIntake.getCargoArmEncoderPosition());
     SmartDashboard.putNumber("Current Offset", Robot.cargoIntake.getOffset());
     */
+    matchTime = DriverStation.getInstance().getMatchTime();
+    SmartDashboard.putNumber("Time left", matchTime);
 
-    SmartDashboard.putNumber("Time left", DriverStation.getInstance().getMatchTime());
+    
     
   }
 
@@ -218,10 +223,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
     Scheduler.getInstance().run();
-    double matchTime = DriverStation.getInstance().getMatchTime();
+    matchTime = DriverStation.getInstance().getMatchTime();
     if(matchTime < 1.5 && matchTime > 0){
         retractIntake.start();
     }
+    
+    
     
   }
 
